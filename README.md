@@ -30,5 +30,5 @@
     src="https://img.shields.io/github/issues-closed-raw/xiaozhu2007/dotfiles?style=for-the-badge"
   />
   <br />
-  ⭐️ 您的 Star 对我来说很有用！ / Your **Star** is very useful to me!
+  ⭐️ 您的 Star 对我来说很有用！
 </p>
