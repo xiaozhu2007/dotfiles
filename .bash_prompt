@@ -8,10 +8,10 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM='xterm-256color';
 fi;
 
-cloud=""
+emoji="💻 "
 if [[ -f /proc/cpuinfo ]] && grep -q "^flags.* hypervisor" /proc/cpuinfo && [[ ! -d "/mnt/c/Windows/" ]]; then
 	# Not WSL
-	cloud="☁️ "
+	emoji="☁️ "
 fi
 
 if tput setaf 1 &> /dev/null; then
@@ -62,7 +62,7 @@ PS1="\\[\\033]0;\\w\\007\\]";
 PS1+="\\[${bold}\\]\\n"; # bold
 PS1+="\\[${userStyle}\\]\\u"; # username
 PS1+="\\[${purple}\\] @ ";
-PS1+="\\[${hostStyle}\\]${cloud}\\h"; # host
+PS1+="\\[${hostStyle}\\]${emoji}\\h"; # host
 PS1+="\\[${purple}\\] in ";
 PS1+="\\[${green}\\]\\w"; # working directory
 PS1+="\\n";
