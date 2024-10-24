@@ -1,41 +1,82 @@
-# Create a new directory and enter it
-function mc() {
-  mkdir -p "$@" && cd "$@"
+#!/bin/bash
+
+calc() {
+  if ! command -v bc &> /dev/null; then
+    echo "bc not found, attempting to install..."
+    sudo apt-get update && sudo apt-get install -y bc || { echo "Failed to install bc. Please install it manually."; return 1; }
+  fi
+  local result=$(printf "scale=10;%s\n" "$*" | bc --mathlib | tr -d '\n')
+  [[ "$result" == *.* ]] && result=$(echo "$result" | sed -e 's/^\./0./;s/^-\./-0./;s/0*$//;s/\.$//')
+  printf "%s\n" "$result"
 }
 
-# check file size
-function fs() {
-    du -sh ${1} | awk '{print $1}'
+dataurl() {
+  local file="$1"
+  [ -z "$file" ] && { echo "Usage: dataurl <file>"; return 1; }
+  [ ! -f "$file" ] && { echo "Error: File '$file' not found."; return 1; }
+  local mime_type=$(file -b --mime-type "$file")
+  [[ $mime_type == text/* ]] && mime_type="${mime_type};charset=utf-8"
+  local base64_content=$(openssl base64 -in "$file" | tr -d '\n')
+  echo "data:${mime_type};base64,${base64_content}"
 }
 
-# check processes using a port
 function port() {
-    lsof -iTCP:$1 -sTCP:LISTEN
+  local PORT="$1"
+  [ -z "$PORT" ] && { echo "Usage: port <port_number>"; return 1; }
+  if ! [[ "$PORT" =~ ^[0-9]+$ ]] || [ "$PORT" -lt 1 ] || [ "$PORT" -gt 65535 ]; then
+    echo "Error: Port number must be a positive integer between 1 and 65535."
+    return 1
+  fi
+  lsof -iTCP:"$PORT" -sTCP:LISTEN
 }
 
-# credit: yyx990803/dotfiles & http://nparikh.org/notes/zshrc.txt (404)
 # Usage: extract <file>
-# Description: extracts archived files / mounts disk images
-# Note: .dmg/hdiutil is Mac OS X-specific.
-extract () {
-    if [ -f $1 ]; then
-        case $1 in
-            *.tar.bz2)  tar -jxvf $1                        ;;
-            *.tar.gz)   tar -zxvf $1                        ;;
-            *.bz2)      bunzip2 $1                          ;;
-            *.dmg)      hdiutil mount $1                    ;;
-            *.gz)       gunzip $1                           ;;
-            *.tar)      tar -xvf $1                         ;;
-            *.tbz2)     tar -jxvf $1                        ;;
-            *.tgz)      tar -zxvf $1                        ;;
-            *.zip)      unzip $1                            ;;
-            *.ZIP)      unzip $1                            ;;
-            *.pax)      cat $1 | pax -r                     ;;
-            *.pax.Z)    uncompress $1 --stdout | pax -r     ;;
-            *.Z)        uncompress $1                       ;;
-            *)          echo "'$1' cannot be extracted/mounted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
+extract() {
+    if [ -z "$1" ]; then
+        echo "Usage: extract <file>"
+        return 1
     fi
+    local FILE="$1"
+    if [ ! -f "$FILE" ]; then
+        echo "Error: File '$FILE' not found."
+        return 1
+    fi
+    case "$FILE" in
+        *.tar.bz2|*.tbz2) tar -jxvf "$FILE" ;;
+        *.tar.gz|*.tgz)   tar -zxvf "$FILE" ;;
+        *.bz2)            bunzip2 "$FILE" ;;
+        *.dmg)            hdiutil mount "$FILE" ;;
+        *.gz)             gunzip "$FILE" ;;
+        *.tar)            tar -xvf "$FILE" ;;
+        *.zip|*.ZIP)      unzip "$FILE" ;;
+        *.pax)            pax -r -f "$FILE" ;;
+        *.pax.Z)          uncompress "$FILE" | pax -r ;;
+        *.Z)              uncompress "$FILE" ;;
+        *)                echo "Error: '$FILE' cannot be extracted" ;;
+    esac
+
+    if [ $? -ne 0 ]; then
+        echo "Error: Extraction failed"
+        return 1
+    fi
+}
+
+wcc() {
+  if [ -z "$1" ]; then
+    echo "Usage: wcc <file>"
+    return 1
+  fi
+  local FILE_NAME="$1"
+  if [ ! -f "$FILE_NAME" ]; then
+    echo "Error: File '$FILE_NAME' not found."
+    return 1
+  fi
+  read -r LINE WORD CHAR BYTE <<< $(wc -l -w -m -c < "$FILE_NAME")
+  echo "$FILE_NAME"
+  echo "---"
+  echo "Byte: $BYTE"
+  echo "Char: $CHAR"
+  echo "Word: $WORD"
+  echo "Line: $LINE"
+  echo
 }
