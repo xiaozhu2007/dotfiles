@@ -10,36 +10,51 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~"
 
-# 'ls' aliases
+# grep
+alias grep='grep --color=auto'
+
+# du & df
+alias df='df -h'
+alias du='du -h'
+
+# ls
 alias la="ls -A"
 alias ll="ls -Al"
+alias l="ls -CF"
 
-# Get External IP
-alias cip="curl cip.cc"
+# less & more
+alias less='less -R'
+alias more='more -d'
 
 # Get Local IP
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
-# Reload the shell (i.e. invoke as a login shell)
+# Reload the shell
 alias reload="exec ${SHELL} -l"
 alias rl="source ~/.bashrc; echo '~/.bashrc reloaded.'"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
-# 艹
-alias c="clear"
-alias cc="AGDDoS -cc 1000 -ims 10 -u" # Usage: $ cc https://baidu.com
+# Networking
+alias ping='ping -c 5'
+alias wget='wget -c'
+alias ports='netstat -tulanp'
+alias sss='ss -s'
 
-# Git shortcuts
-alias gs="git status"
-alias gadd="git add -A ."
+# Other
+alias top='top -c'
+alias tf='tail -f'
+alias psa='ps aux'
+alias clear='clear; printf "\e[3J"'
+
+# Git
+alias g="git"
+alias ga="git add -A ."
 alias gc="git commit"
 alias gd="git diff"
 alias push="git push"
 alias pull="git pull"
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias ggr="git log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr) %C(bold blue)<%an>%Creset %C(yellow)%ad%Creset' --abbrev-commit --date=short"
 alias ggre="git log --reverse --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr) %C(bold blue)<%an>%Creset %C(yellow)%ad%Creset' --abbrev-commit --date=short"
-alias gbg="git bisect good"
-alias gbb="git bisect bad"
-alias gbr="git bisect reset"
