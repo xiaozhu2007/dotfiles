@@ -31,8 +31,11 @@ alias lll="exa --color auto --tree --all --long"
 alias less='less -R'
 alias more='more -d'
 
-# Get Local IP
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+# what (what are other users doing?)
+alias what="watch -n 1 w"
+
+# Get IP
+alias ips="ip a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
 # Reload the shell
 alias reload="exec ${SHELL} -l"
