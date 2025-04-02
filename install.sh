@@ -30,7 +30,7 @@ cd "${dotfiledir}" || exit
 
 # Create symlinks (will overwrite existing files)
 for file in "${files[@]}"; do
-    src="${dotfiledir}/${file}"
+    src="${dotfiledir}/.${file}"
     dest="${HOME}/.${file}"
     if [ ! -e "$src" ]; then
         echo "Error: Source file $src does not exist."
