@@ -1,10 +1,17 @@
 #!/bin/bash
 ############################
-# This script creates symlinks from the home directory to any desired dotfiles in $HOME/dotfiles
+# This script automates dotfile setup and tool installation
 # Thanks https://github.com/CoreyMSchafer/dotfiles/blob/master/install.sh
 ############################
 
 set -e
+
+echo ""
+echo "+------------------------------------------------------------+"
+echo "| This script automates dotfile setup and tool installation   |"
+echo "|            Github: xiaozhu2007/dotfiles                     |"
+echo "+------------------------------------------------------------+"
+echo ""
 
 if [[ $EUID -ne 0 ]]; then
     echo "Error: This script must be run as root!" 1>&2
@@ -69,4 +76,3 @@ chmod +x fzf rg
 mv fzf /usr/bin
 mv rg /usr/bin
 echo "Installation Complete!"
-echo "Want to update? cd /dotfiles && gp "
