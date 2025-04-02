@@ -23,9 +23,9 @@ alias ll="ls -Al"
 alias l="ls -CF"
 
 # exa (replacement for ls)
-alias lls="exa --color --tree"
-alias lla="exa --color --tree -A"
-alias lll="exa --color --tree --long -A"
+alias lls="exa --color auto --tree"
+alias lla="exa --color auto --tree --all"
+alias lll="exa --color auto --tree --all --long"
 
 # less & more
 alias less='less -R'
