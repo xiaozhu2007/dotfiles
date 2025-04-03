@@ -23,7 +23,8 @@ alias ll="ls -Al"
 alias l="ls -CF"
 
 # exa (replacement for ls)
-alias lls="exa --color auto --tree"
+alias lls="exa --color auto"
+alias llt="exa --color auto --tree"
 alias lla="exa --color auto --tree --all"
 alias lll="exa --color auto --tree --all --long"
 
