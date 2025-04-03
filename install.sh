@@ -19,12 +19,12 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # dotfiles directory
-dotfiledir="~/dotfiles"
+dotfiledir="${HOME}/dotfiles"
 
 # =================
 # Remove existing dotfiles directory
 # =================
-rm -r "${dotfiledir}"
+rm -rf "${dotfiledir}"
 
 # =================
 # list of files/folders to symlink in ${dotfiledir}
@@ -35,7 +35,7 @@ files=(bashrc bash_profile bash_prompt aliases func profile)
 # clone the repo
 # =================
 apt install -y git
-git clone --depth 1 https://github.com/xiaozhu2007/dotfiles ~/dotfiles
+git clone --depth 1 https://github.com/xiaozhu2007/dotfiles $HOME/dotfiles
 
 # =================
 # change to the dotfiles directory
