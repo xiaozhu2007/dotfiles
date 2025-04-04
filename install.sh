@@ -61,7 +61,7 @@ done
 # install tools
 # =================
 apt update
-apt install -y curl wget tar unzip zip tealdeer exa
+apt install -y curl wget tar unzip zip tealdeer
 # ripgrep
 wget https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz
 tar xvf ripgrep-14.1.1-x86_64-unknown-linux-musl.tar.gz
@@ -79,18 +79,23 @@ rm fd_10.2.0_amd64.deb
 wget https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
 apt install -y ./bat_0.25.0_amd64.deb
 rm bat_0.25.0_amd64.deb
+# eza
+wget https://github.com/eza-community/eza/releases/download/v0.21.0/eza_x86_64-unknown-linux-gnu.zip
+unzip eza_x86_64-unknown-linux-gnu.zip
+rm eza_x86_64-unknown-linux-gnu.zip
 
 # =================
 # chmod & move
 # =================
-chmod +x fzf rg
+chmod +x fzf rg eza
 mv fzf /usr/bin
 mv rg /usr/bin
+mv eza /usr/bin
 
 echo ""
 echo "+-------------------------------+"
 echo "|     Installation Complete     |"
 echo "| Installed: tldr, fd, bat, rg, |"
-echo "|           fzf, exa            |"
+echo "|           fzf, eza            |"
 echo "+-------------------------------+"
 echo ""
