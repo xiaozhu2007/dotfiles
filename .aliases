@@ -35,6 +35,9 @@ alias more='more -d'
 # what (what are other users doing?)
 alias what="watch -n 1 w"
 
+# bird2
+alias bspa="birdc s p a"
+
 # Get IP
 alias ips="ip a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
