@@ -23,10 +23,10 @@ alias ll="ls -Al"
 alias l="ls -CF"
 
 # eza (replacement for ls)
-alias lls="eza --color auto --classify auto"
-alias llt="eza --color auto --classify auto --tree"
-alias lla="eza --color auto --classify auto --icons auto --tree --all"
-alias lll="eza --color auto --classify auto --icons auto --tree --all --long"
+alias lls="eza --color auto --classify always"
+alias llt="eza --color auto --classify always --tree"
+alias lla="eza --color auto --classify always --icons always --tree --all"
+alias lll="eza --color auto --classify always --icons always --tree --all --long"
 
 # less & more
 alias less='less -R'
