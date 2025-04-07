@@ -58,6 +58,11 @@ for file in "${files[@]}"; do
 done
 
 # =================
+# install starship
+# =================
+# curl -sS https://starship.rs/install.sh | sh
+
+# =================
 # install tools
 # =================
 apt update
