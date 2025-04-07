@@ -43,6 +43,7 @@ $character"""
 
 right_format = """
 $battery\
+$time\
 """
 
 # Inserts a blank line between shell prompts
@@ -106,6 +107,15 @@ style = 'dimmed white'
 min_time = 500
 format = 'took [$duration]($style)'
 show_milliseconds = true
+
+[os]
+disabled = true
+format = '[$symbol]($style)'
+
+[time]
+disabled = false
+format = '🕙 [$time]($style) '
+time_format = '%T'
 
 #####################################
 
