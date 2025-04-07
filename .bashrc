@@ -103,3 +103,9 @@ unset file
 if hash fnm 2>/dev/null; then
 	eval "$(fnm env --use-on-cd --shell bash)"
 fi
+
+# starship bash completion
+if hash starship 2>/dev/null; then
+	export STARSHIP_CONFIG=$HOME/dotfiles/config/starship.toml
+	eval "$(starship init bash)"
+fi
