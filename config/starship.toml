@@ -1,0 +1,268 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$docker_context\
+$c\
+$cmake\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$golang\
+$haskell\
+$java\
+$kotlin\
+$gradle\
+$lua\
+$nodejs\
+$perl\
+$php\
+$python\
+$rust\
+$terraform\
+$memory_usage\
+$direnv\
+$env_var\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$character"""
+
+right_format = """
+$battery\
+"""
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+command_timeout = 1000
+
+# Replace the '❯' symbol in the prompt with '$'
+[character] # The name of the module we are configuring is 'character'
+success_symbol = '[\$](bold white)'
+
+[directory]
+format = '[$path]($style)[$read_only]($read_only_style) '
+style = 'bold green'
+read_only = " 󰌾"
+
+[hostname]
+ssh_only = false
+disabled = false
+style = 'bold cyan'
+ssh_symbol = " "
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[username]
+disabled = false
+show_always = true
+style_user = 'bold blue'
+format = '[$user]($style) @ '
+
+[git_branch]
+format = '[$symbol$branch]($style) '
+symbol = " "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style))'
+
+[git_commit]
+tag_symbol = '  '
+
+[[battery.display]]
+threshold = 10
+style = 'bold red'
+
+[[battery.display]]
+threshold = 90
+style = 'bold green'
+charging_symbol = '⚡️ '
+discharging_symbol = '💦 '
+
+[memory_usage]
+disabled = false
+threshold = 70
+format = '$symbol[${ram}/${ram_pct}( | ${swap}/${swap_pct})]($style) '
+symbol = '󰍛 '
+style = 'dimmed white'
+
+[cmd_duration]
+min_time = 500
+format = 'took [$duration]($style)'
+show_milliseconds = true
+
+#####################################
+
+[aws]
+symbol = "  "
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[cmake]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[docker_context]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[golang]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[kotlin]
+symbol = " "
+
+[lua]
+symbol = " "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CachyOS = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+Nobara = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[python]
+symbol = " "
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+
+[rust]
+symbol = "󱘗 "
+
+[scala]
+symbol = " "
+
+[swift]
+symbol = " "
+
+[zig]
+symbol = " "
+
+[gradle]
+symbol = " "
