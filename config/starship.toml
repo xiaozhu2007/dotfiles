@@ -52,8 +52,13 @@ add_newline = true
 command_timeout = 1000
 
 # Replace the '❯' symbol in the prompt with '$'
-[character] # The name of the module we are configuring is 'character'
+[character]
 success_symbol = '[\$](bold white)'
+error_symbol = '[\$](bold red)'
+vimcmd_symbol = '[\$](bold green)'
+vimcmd_replace_one_symbol = '[\$](bold purple)'
+vimcmd_replace_symbol = '[\$](bold purple)'
+vimcmd_visual_symbol = '[\$](bold yellow)'	
 
 [directory]
 format = '[$path]($style)[$read_only]($read_only_style) '
