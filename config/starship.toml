@@ -51,7 +51,7 @@ add_newline = true
 
 command_timeout = 1000
 
-# Replace the '❯' symbol in the prompt with '$'
+# Replace the default symbol in the prompt with '$'
 [character]
 success_symbol = '[\$](bold white)'
 error_symbol = '[\$](bold red)'
