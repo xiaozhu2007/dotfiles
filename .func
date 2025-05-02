@@ -101,3 +101,57 @@ function noproxy() {
     unset NO_PROXY
     echo "Proxy disabled"
 }
+
+# Get prefixes by ASN
+asn2prefix() {
+    local asn="$1"
+    local cache_file=/tmp/bgp_table.txt
+    if command -v rg &> /dev/null; then
+        search_tool="rg"
+    else
+        search_tool="grep -E"
+    fi
+    # Cache: 8h
+    if [[ ! -f "$cache_file" ]] || [[ $(find "$cache_file" -mmin +480 2>/dev/null) ]]; then
+        echo "Updating cache..."
+        curl -s -o "$cache_file" -H "User-Agent: Mozilla/5.0+(compatible; asn2prefix/1.0-bash; github.com/xiaozhu2007/dotfiles)" https://bgp.tools/table.txt || {
+            echo "Error downloading table.txt" >&2
+            return 1
+        }
+    fi
+    $search_tool $asn $cache_file | cut -d' ' -f1
+}
+
+# Upload Files to XMSL
+xmsl() {
+    if [ -z "$1" ]; then
+        echo "Usage: xmsl <filename> [filename=value1 expires_in=7d ...]"
+        return 1
+    fi
+
+    local file="$1"
+    if [ ! -f "$file" ]; then
+        echo "Error: File '$file' not found."
+        return 1
+    fi
+
+    shift
+    local form_params=()
+
+    # Parse
+    for arg in "$@"; do
+        if [[ "$arg" != *=* ]]; then
+            echo "Error: Invalid parameter format: '$arg'. Must be key=value."
+            return 1
+        fi
+
+        local key="${arg%%=*}"
+        local value="${arg#*=}"
+        form_params+=(-F "$key=$value")
+    done
+
+    curl_cmd=(curl -F "file=@$file" "${form_params[@]}" xmsl.im/p)
+
+    # Upload
+    "${curl_cmd[@]}"
+}
