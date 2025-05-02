@@ -150,7 +150,7 @@ xmsl() {
         form_params+=(-F "$key=$value")
     done
 
-    curl_cmd=(curl -F "file=@$file" "${form_params[@]}" xmsl.im/p)
+    curl_cmd=(curl -F "file=@$file" "${form_params[@]}" -H "User-Agent: Mozilla/5.0+(compatible; xmsl/1.0-bash; github.com/xiaozhu2007/dotfiles)" https://xmsl.im/p)
 
     # Upload
     "${curl_cmd[@]}"
