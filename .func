@@ -155,3 +155,41 @@ xmsl() {
     # Upload
     "${curl_cmd[@]}"
 }
+
+camo() {
+    local original_url="$1"
+
+    # Parameter validation
+    if [ -z "$original_url" ]; then
+        echo "Usage: camo <url>" >&2
+        return 1
+    fi
+
+    # Configuration defaults
+    local camo_base_url=${CAMO_BASE_URL:-https://camo.liuzhen932.top}
+    local camo_secret_file=${CAMO_SECRET_FILE:-~/.camo_key}
+
+    # Check secret file existence
+    if [[ ! -f "$camo_secret_file" ]]; then
+        echo "Error: Secret file '$camo_secret_file' not found" >&2
+        return 1
+    fi
+
+    # Read secret from file
+    local camo_secret=$(< "$camo_secret_file")
+
+    # Convert URL to hexadecimal string
+    local asset_url=$(printf '%s' "$original_url" | xxd -p -u | tr -d '\n')
+
+    # Calculate HMAC-SHA1 digest
+    local digest=$(printf '%s' "$asset_url" | openssl dgst -sha1 -hmac "$camo_secret" -binary | xxd -p -u | tr -d '\n')
+    
+    # Error handling
+    if [[ $? -ne 0 ]]; then
+        echo "Error: HMAC signature calculation failed. Ensure OpenSSL and xxd is installed." >&2
+        return 1
+    fi
+
+    # Output final Camo URL
+    echo "${camo_base_url}/${digest}/${asset_url}"
+}
