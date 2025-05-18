@@ -186,7 +186,7 @@ camo() {
     local asset_url=$(printf '%s' "$original_url" | xxd -p -u | tr -d '\n')
 
     # Calculate HMAC-SHA1 digest
-    local digest=$(printf '%s' "$asset_url" | openssl dgst -sha1 -hmac "$camo_secret" -binary | xxd -p -u | tr -d '\n')
+    local digest=$(printf '%s' "$original_url" | openssl dgst -sha1 -hmac "$camo_secret" -binary | xxd -p -u | tr -d '\n')
     
     # Error handling
     if [[ $? -ne 0 ]]; then
