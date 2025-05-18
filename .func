@@ -88,9 +88,13 @@ function useproxy() {
     fi
     local PROXY_IP="$1"
     export HTTP_PROXY=http://$PROXY_IP:7890
+    export http_proxy=http://$PROXY_IP:7890
     export HTTPS_PROXY=http://$PROXY_IP:7890
+    export https_proxy=http://$PROXY_IP:7890
     export ALL_PROXY=http://$PROXY_IP:7890
+    export all_proxy=http://$PROXY_IP:7890
     export NO_PROXY="localhost,127.0.0.1,.local,10.0.0.0/8,192.168.0.0/16"
+    export no_proxy="localhost,127.0.0.1,.local,10.0.0.0/8,192.168.0.0/16"
     echo "Proxy set to $PROXY_IP:7890"
 }
 
