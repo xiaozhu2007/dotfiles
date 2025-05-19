@@ -197,3 +197,41 @@ camo() {
     # Output final Camo URL
     echo "${camo_base_url}/${digest}/${asset_url}"
 }
+
+xurl() {
+    if [ -z "$1" ]; then
+        echo "Usage: xmsl_url <url> [title=value1 expires_in=7d ...]"
+        return 1
+    fi
+
+    local url="$1"
+    local xmsl_apikey_file=${CAMO_SECRET_FILE:-~/.xmsl_api_key}
+    # Check secret file existence
+    if [[ ! -f "$xmsl_apikey_file" ]]; then
+        echo "Error: API Key file '$xmsl_apikey_file' not found" >&2
+        return 1
+    fi
+
+    # Read secret from file
+    local xmsl_apikey=$(< "$xmsl_apikey_file")
+
+    shift
+    local form_params=()
+
+    # Parse
+    for arg in "$@"; do
+        if [[ "$arg" != *=* ]]; then
+            echo "Error: Invalid parameter format: '$arg'. Must be key=value."
+            return 1
+        fi
+
+        local key="${arg%%=*}"
+        local value="${arg#*=}"
+        form_params+=(-F "$key=$value")
+    done
+
+    curl_cmd=(curl -d "url=$url" "${form_params[@]}" -H "Authorization: Bearer $xmsl_apikey" -H "User-Agent: Mozilla/5.0+(compatible; xmsl/1.0-bash; github.com/xiaozhu2007/dotfiles)" https://xmsl.im/u)
+
+    # Shorten
+    "${curl_cmd[@]}"
+}
