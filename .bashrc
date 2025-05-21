@@ -109,3 +109,8 @@ if hash starship 2>/dev/null; then
 	export STARSHIP_CONFIG=$HOME/dotfiles/config/starship.toml
 	eval "$(starship init bash)"
 fi
+
+# mise bash completion
+if hash mise 2>/dev/null; then
+	eval "$(mise activate bash)"
+fi
