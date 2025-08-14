@@ -1060,3 +1060,308 @@ curl -s "wttr.in" \
 curl -s "wttr.in/<location>" \
    | grep -v "New feature" \
    | grep -v Follow
+
+% oma, install
+
+# Install package using oma
+oma install <package>
+
+# Install package with dry-run mode
+oma install --dry-run <package>
+
+# Install package without progress bar
+oma install --no-progress <package>
+
+# Install package with custom download threads
+oma install -t <threads> <package>
+
+$ package: echo "vim git curl wget htop neofetch build-essential python3 nodejs docker.io nginx apache2 mysql-server postgresql firefox chromium vlc gimp libreoffice" | tr ' ' '\n'
+$ threads: echo "1 2 4 8 16 32" | tr ' ' '\n'
+
+% oma, upgrade
+
+# Upgrade all packages
+oma upgrade
+
+# Upgrade with dry-run mode
+oma upgrade --dry-run
+
+# Upgrade without progress bar
+oma upgrade --no-progress
+
+# Upgrade with custom download threads
+oma upgrade -t <threads>
+
+# Full system upgrade (alias)
+oma full-upgrade
+
+# Upgrade without battery check
+oma upgrade --no-check-battery
+
+# Upgrade without wake lock
+oma upgrade --no-take-wake-lock
+
+$ threads: echo "1 2 4 8 16 32" | tr ' ' '\n'
+
+% oma, remove
+
+# Remove single package
+oma remove <installed_package>
+
+# Remove multiple packages
+oma remove <installed_packages>
+
+# Remove package with dry-run mode
+oma remove --dry-run <installed_package>
+
+# Remove package with debug output
+oma remove --debug <installed_package>
+
+# Remove package (alias: del)
+oma del <installed_package>
+
+# Remove package (alias: rm)
+oma rm <installed_package>
+
+# Auto-remove unused packages (alias)
+oma autoremove
+
+$ installed_package: dpkg --get-selections | grep -v deinstall | awk '{print $1}' | head -50
+$ installed_packages: dpkg --get-selections | grep -v deinstall | awk '{print $1}' | head -20 --- --multi --expand
+
+% oma, search
+
+# Search for packages
+oma search <search_term>
+
+# Search with debug output
+oma search --debug <search_term>
+
+# Search without progress bar
+oma search --no-progress <search_term>
+
+$ search_term: echo "editor browser media player development python nodejs docker nginx mysql postgresql firefox chrome vim emacs" | tr ' ' '\n'
+
+% oma, show
+
+# Show package information
+oma show <package>
+
+# Show multiple packages information
+oma show <packages>
+
+# Show package info (alias)
+oma info <package>
+
+# Show with debug output
+oma show --debug <package>
+
+% oma, dependencies
+
+# Show package dependencies
+oma depends <package>
+
+# Show dependencies (alias: dep)
+oma dep <package>
+
+# Show dependencies with debug
+oma depends --debug <package>
+
+# Show reverse dependencies
+oma rdepends <installed_package>
+
+# Show reverse dependencies (alias: rdep)
+oma rdep <installed_package>
+
+# Show reverse dependencies with debug
+oma rdepends --debug <installed_package>
+
+% oma, list
+
+# List all available packages
+oma list
+
+# List with debug output
+oma list --debug
+
+# List without progress bar
+oma list --no-progress
+
+% oma, repository
+
+# Refresh repository metadata
+oma refresh
+
+# Refresh with dry-run mode
+oma refresh --dry-run
+
+# Refresh with debug output
+oma refresh --debug
+
+# Refresh without progress bar
+oma refresh --no-progress
+
+% oma, maintenance
+
+# Fix broken dependencies
+oma fix-broken
+
+# Fix broken with dry-run mode
+oma fix-broken --dry-run
+
+# Fix broken with debug output
+oma fix-broken --debug
+
+# Clean package cache
+oma clean
+
+# Clean with debug output
+oma clean --debug
+
+% oma, version-control
+
+# Install specific package version
+oma pick <package_version>
+
+# Pick with dry-run mode
+oma pick --dry-run <package_version>
+
+# Pick with debug output
+oma pick --debug <package_version>
+
+$ package_version: echo "vim=2:8.2.* git=1:2.34.* nginx=1.18.* docker.io=20.10.*" | tr ' ' '\n'
+
+% oma, package-marking
+
+# Mark package as automatically installed
+oma mark auto <installed_package>
+
+# Mark package as manually installed
+oma mark manual <installed_package>
+
+# Mark package with dry-run mode
+oma mark --dry-run auto <installed_package>
+
+# Mark package with debug output
+oma mark --debug manual <installed_package>
+
+% oma, history
+
+# Show package change history
+oma history
+
+# Show history (alias: log)
+oma log
+
+# Show history with debug output
+oma history --debug
+
+# Undo last system changes
+oma undo
+
+# Undo with dry-run mode
+oma undo --dry-run
+
+# Undo with debug output
+oma undo --debug
+
+% oma, analysis
+
+# Analyze package sizes
+oma size-analyzer
+
+# Size analyzer with debug output
+oma size-analyzer --debug
+
+# Display dependency tree
+oma tree <package>
+
+# Display tree with debug output
+oma tree --debug <package>
+
+# Show why package is installed
+oma why <installed_package>
+
+# Why with debug output
+oma why --debug <installed_package>
+
+% oma, combined-operations
+
+# Install package and show information
+oma install <package> && oma show <package>
+
+# Refresh repositories and upgrade system
+oma refresh && oma upgrade
+
+# Search and install package
+oma search <search_term> && oma install <package>
+
+# Download and show package files
+oma download <package> && oma files <package>
+
+# Remove package and clean cache
+oma remove <installed_package> && oma clean
+
+# Fix broken dependencies and upgrade
+oma fix-broken && oma upgrade
+
+# Show dependencies and install package
+oma depends <package> && oma install <package>
+
+# Install package and check why it's needed
+oma install <package> && oma why <package>
+
+# Clean cache and refresh repositories
+oma clean && oma refresh
+
+# Show package info and dependency tree
+oma show <package> && oma tree <package>
+
+% oma, batch-operations
+
+# Install development tools stack
+oma install build-essential git vim curl wget htop
+
+# Install web development stack
+oma install nodejs npm nginx mysql-server php
+
+# Install Python development environment
+oma install python3 python3-pip python3-venv python3-dev
+
+# Install multimedia packages
+oma install vlc gimp audacity obs-studio
+
+# Install office and productivity tools
+oma install libreoffice thunderbird firefox chromium
+
+# Install system monitoring tools
+oma install htop iotop nethogs nmon sysstat
+
+# Install database packages
+oma install mysql-server postgresql redis-server mongodb
+
+# Remove common bloatware packages
+oma remove games-* libreoffice-* thunderbird
+
+# Install security and networking tools
+oma install nmap wireshark tcpdump netcat-openbsd
+
+% oma, maintenance-routines
+
+# Complete system maintenance
+oma refresh && oma upgrade && oma autoremove && oma clean
+
+# Emergency system repair
+oma fix-broken && oma refresh && oma upgrade
+
+# Package cleanup routine
+oma autoremove && oma clean && oma refresh
+
+# System update with verification
+oma refresh && oma upgrade --dry-run && oma upgrade
+
+# Pre-installation system preparation
+oma refresh && oma fix-broken && oma clean
+
+# Post-installation cleanup
+oma autoremove && oma clean && oma history
