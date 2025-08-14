@@ -57,6 +57,13 @@ for file in "${files[@]}"; do
     ln -sf "$src" "$dest"
 done
 
+if [ ! -e "${dotfiledir}/.cheat" ]; then
+    echo "Error: Source file ${dotfiledir}/.cheat does not exist."
+    exit 1
+fi
+echo "Creating symlink for navi cheat file."
+ln -sf "${dotfiledir}/.cheat" "${HOME}/.local/share/navi/cheats/main.cheat"
+
 # =================
 # install starship
 # =================
