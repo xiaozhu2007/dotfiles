@@ -1,0 +1,765 @@
+% docker, containers
+
+# List all containers (running and stopped)
+docker ps -a
+
+# List only running containers
+docker ps
+
+# Start a container
+docker start <container>
+
+# Stop a container
+docker stop <container>
+
+# Remove a container
+docker rm <container>
+
+# Remove multiple containers
+docker rm <containers>
+
+# Execute command in running container
+docker exec -it <running_container> <command>
+
+# View container logs
+docker logs -f <container>
+
+# Inspect container details
+docker inspect <container>
+
+# Copy files from container to host
+docker cp <container>:<container_path> <host_path>
+
+# Copy files from host to container
+docker cp <host_path> <container>:<container_path>
+
+$ container: docker ps -a --format "table {{.Names}}\t{{.Status}}" --- --column 1 --header-lines 1
+$ running_container: docker ps --format "table {{.Names}}\t{{.Status}}" --- --column 1 --header-lines 1
+$ containers: docker ps -a --format "{{.Names}}" --- --multi --expand
+$ command: echo "bash sh /bin/bash /bin/sh" | tr ' ' '\n'
+$ container_path: echo "/app /var/log /etc /home /tmp" | tr ' ' '\n'
+$ host_path: echo "$(pwd) /tmp /home/$USER" | tr ' ' '\n'
+
+% docker, images
+
+# List all images
+docker images
+
+# Pull an image from registry
+docker pull <image_name>
+
+# Remove an image
+docker rmi <image>
+
+# Remove multiple images
+docker rmi <images>
+
+# Build image from Dockerfile
+docker build -t <tag_name> <build_context>
+
+# Tag an image
+docker tag <source_image> <target_image>
+
+# Push image to registry
+docker push <image_name>
+
+# Show image history
+docker history <image>
+
+# Remove dangling images
+docker image prune
+
+# Remove all unused images
+docker image prune -a
+
+$ image: docker images --format "table {{.Repository}}:{{.Tag}}\t{{.Size}}" --- --column 1 --header-lines 1
+$ images: docker images --format "{{.Repository}}:{{.Tag}}" --- --multi --expand
+$ image_name: echo "nginx alpine ubuntu node redis mysql postgres" | tr ' ' '\n'
+$ tag_name: echo "myapp:latest myapp:v1.0 myapp:dev" | tr ' ' '\n'
+$ build_context: echo ". ./docker /path/to/dockerfile" | tr ' ' '\n'
+$ source_image: docker images --format "{{.Repository}}:{{.Tag}}"
+$ target_image: echo "myregistry/myapp:latest localhost:5000/myapp:v1.0" | tr ' ' '\n'
+
+% docker, networks
+
+# List all networks
+docker network ls
+
+# Create a network
+docker network create <network_name>
+
+# Remove a network
+docker network rm <network>
+
+# Connect container to network
+docker network connect <network> <container>
+
+# Disconnect container from network
+docker network disconnect <network> <container>
+
+# Inspect network details
+docker network inspect <network>
+
+$ network: docker network ls --format "{{.Name}}" --- --header-lines 1
+$ network_name: echo "myapp-network frontend-network backend-network" | tr ' ' '\n'
+
+% docker, volumes
+
+# List all volumes
+docker volume ls
+
+# Create a volume
+docker volume create <volume_name>
+
+# Remove a volume
+docker volume rm <volume>
+
+# Remove unused volumes
+docker volume prune
+
+# Inspect volume details
+docker volume inspect <volume>
+
+$ volume: docker volume ls --format "{{.Name}}"
+$ volume_name: echo "db-data logs-data config-data" | tr ' ' '\n'
+
+% docker, compose
+
+# Start all services
+docker compose up -d
+
+# Stop all services
+docker compose down
+
+# Restart specific service
+docker compose restart <service>
+
+# View logs of all services
+docker compose logs -f
+
+# View logs of specific service
+docker compose logs -f <service>
+
+# Scale a service
+docker compose up -d --scale <service>=<replicas>
+
+# Build and start services
+docker compose up --build -d
+
+# Execute command in service container
+docker compose exec <service> <command>
+
+$ service: docker-compose config --services 2>/dev/null || echo "web db redis nginx app api worker" | tr ' ' '\n'
+$ replicas: echo "1 2 3 5 10" | tr ' ' '\n'
+
+% docker, system
+
+# Show system information
+docker system info
+
+# Show disk usage
+docker system df
+
+# Clean up unused resources
+docker system prune
+
+# Clean up everything (including volumes)
+docker system prune -a --volumes
+
+# Show running processes in containers
+docker stats
+
+# Monitor container resource usage
+docker stats <container>
+
+% kubernetes, kubectl
+
+# Get cluster information
+kubectl cluster-info
+
+# Get all pods
+kubectl get pods
+
+# Get pods in specific namespace
+kubectl get pods -n <namespace>
+
+# Describe a pod
+kubectl describe pod <pod>
+
+# Get pod logs
+kubectl logs -f <pod>
+
+# Execute command in pod
+kubectl exec -it <pod> -- <command>
+
+# Get all services
+kubectl get services
+
+# Get all deployments
+kubectl get deployments
+
+# Scale deployment
+kubectl scale deployment <deployment> --replicas=<replicas>
+
+# Apply configuration from file
+kubectl apply -f <config_file>
+
+# Delete resource
+kubectl delete <resource_type> <resource_name>
+
+$ namespace: kubectl get namespaces -o name | sed 's/namespace\///' | grep -v kube-
+$ pod: kubectl get pods -o name | sed 's/pod\///'
+$ deployment: kubectl get deployments -o name | sed 's/deployment\///'
+$ config_file: find . -name "*.yaml" -o -name "*.yml" | head -10
+$ resource_type: echo "pod service deployment configmap secret" | tr ' ' '\n'
+$ resource_name: echo "Replace with actual resource name"
+
+% networking, monitoring
+
+# Show network interfaces
+ip addr show
+
+# Show routing table
+ip route show
+
+# Test connectivity to host
+ping -c 4 <hostname>
+
+# Test port connectivity
+telnet <hostname> <port>
+
+# Scan ports on host
+nmap -p <port_range> <hostname>
+
+# Check listening ports
+netstat -tlnp
+
+# Show network connections
+ss -tuln
+
+# Monitor network traffic
+tcpdump -i <interface> host <hostname>
+
+# Show DNS resolution
+nslookup <hostname>
+
+# Trace route to destination
+traceroute <hostname>
+
+$ hostname: echo "localhost google.com 8.8.8.8 github.com" | tr ' ' '\n'
+$ port: echo "22 80 443 8080 3306 5432 6379 25565" | tr ' ' '\n'
+$ port_range: echo "1-1000 22,80,443 1-65535" | tr ' ' '\n'
+$ interface: ip link show | grep -E '^[0-9]+:' | awk '{print $2}' | tr -d ':'
+
+% git, devops
+
+# Clone repository
+git clone <repo_url>
+
+# Check repository status
+git status
+
+# Add files to staging
+git add <files>
+
+# Commit changes
+git commit -m "<commit_message>"
+
+# Push to remote
+git push origin <branch>
+
+# Pull latest changes
+git pull origin <branch>
+
+# Create new branch
+git checkout -b <new_branch>
+
+# Switch to branch
+git checkout <branch>
+
+# Merge branch
+git merge <branch>
+
+# View commit history
+git log --oneline
+
+# Show differences
+git diff <branch>
+
+$ repo_url: echo "https://github.com/user/repo.git git@github.com:user/repo.git" | tr ' ' '\n'
+$ files: git status --porcelain | awk '{print $2}' | head -10 --- --multi --expand
+$ commit_message: echo "Initial commit Fix bug Add feature Update documentation" | tr '\n' ' ' | tr ' ' '\n'
+$ branch: git branch | sed 's/^\*\?\s*//' | grep -v '^$'
+$ new_branch: echo "feature/new-feature hotfix/bug-fix develop staging" | tr ' ' '\n'
+
+% backup, sync
+
+# Backup directory with rsync
+rsync -av <source_dir>/ <destination_dir>/
+
+# Backup to remote server
+rsync -av -e ssh <source_dir>/ <user>@<remote_host>:<remote_dir>/
+
+# Create tar archive
+tar -czf <archive_name>.tar.gz <directory>
+
+# Extract tar archive
+tar -xzf <archive_file>
+
+# Compress directory with zip
+zip -r <archive_name>.zip <directory>
+
+# Extract zip file
+unzip <zip_file>
+
+$ source_dir: echo "/home/$USER /var/www /opt /etc" | tr ' ' '\n'
+$ destination_dir: echo "/backup /tmp/backup /mnt/backup" | tr ' ' '\n'
+$ user: echo "$USER root admin deploy" | tr ' ' '\n'
+$ remote_host: echo "backup.example.com 192.168.1.100 server.local" | tr ' ' '\n'
+$ remote_dir: echo "/backup /home/backup /var/backups" | tr ' ' '\n'
+$ archive_name: echo "backup-$(date +%Y%m%d) myapp-backup project-backup" | tr ' ' '\n'
+$ archive_file: find . -name "*.tar.gz" -o -name "*.tgz" | head -10
+$ zip_file: find . -name "*.zip" | head -10
+
+% ssl, security
+
+# Generate SSL certificate with openssl
+openssl req -x509 -newkey rsa:4096 -keyout <key_file> -out <cert_file> -days <days>
+
+# Check SSL certificate expiration
+openssl x509 -in <cert_file> -noout -dates
+
+# Test SSL connection
+openssl s_client -connect <hostname>:443
+
+# Generate SSH key pair
+ssh-keygen -t rsa -b 4096 -C "<email>"
+
+# Copy SSH public key to remote server
+ssh-copy-id <user>@<hostname>
+
+# Check file permissions
+ls -la <file_path>
+
+# Change file permissions
+chmod <permissions> <file_path>
+
+# Change file ownership
+chown <user>:<group> <file_path>
+
+$ key_file: echo "server.key app.key private.key" | tr ' ' '\n'
+$ cert_file: echo "server.crt app.crt certificate.pem" | tr ' ' '\n' 
+$ days: echo "365 730 1095 30 90" | tr ' ' '\n'
+$ email: echo "$USER@$(hostname) admin@example.com dev@company.com" | tr ' ' '\n'
+$ file_path: find . -maxdepth 2 -type f | head -10
+$ permissions: echo "644 755 600 700 777" | tr ' ' '\n'
+$ group: echo "$(groups | tr ' ' '\n')"
+
+% database, management
+
+# Connect to MySQL database
+mysql -u <db_user> -p<password> -h <db_host> <database>
+
+# Backup MySQL database
+mysqldump -u <db_user> -p<password> <database> > <backup_file>.sql
+
+# Restore MySQL database
+mysql -u <db_user> -p<password> <database> < <backup_file>.sql
+
+# Connect to PostgreSQL database
+psql -U <db_user> -h <db_host> -d <database>
+
+# Backup PostgreSQL database
+pg_dump -U <db_user> -h <db_host> <database> > <backup_file>.sql
+
+# Connect to Redis
+redis-cli -h <db_host> -p <redis_port>
+
+# Connect to MongoDB
+mongo --host <db_host>:<mongo_port> <database>
+
+$ db_user: echo "root admin user app_user postgres" | tr ' ' '\n'
+$ password: echo "password admin 123456 secret" | tr ' ' '\n'
+$ db_host: echo "localhost 127.0.0.1 db.example.com 192.168.1.100" | tr ' ' '\n'
+$ database: echo "myapp production development test wordpress" | tr ' ' '\n'
+$ backup_file: echo "backup-$(date +%Y%m%d) db-backup myapp-backup" | tr ' ' '\n'
+$ redis_port: echo "6379 6380 16379" | tr ' ' '\n'
+$ mongo_port: echo "27017 27018 27019" | tr ' ' '\n'
+
+% database, dump-restore
+
+# MySQL full backup with all databases
+mysqldump -u <db_user> -p<password> --all-databases > <all_db_backup>.sql
+
+# MySQL backup with structure only
+mysqldump -u <db_user> -p<password> --no-data <database> > <structure_backup>.sql
+
+# MySQL backup with data only
+mysqldump -u <db_user> -p<password> --no-create-info <database> > <data_backup>.sql
+
+# MySQL backup specific tables
+mysqldump -u <db_user> -p<password> <database> <tables> > <table_backup>.sql
+
+# MySQL backup with compression
+mysqldump -u <db_user> -p<password> <database> | gzip > <compressed_backup>.sql.gz
+
+# PostgreSQL full backup
+pg_dumpall -U <db_user> -h <db_host> > <pg_full_backup>.sql
+
+# PostgreSQL backup with custom format
+pg_dump -U <db_user> -h <db_host> -F c -f <custom_backup>.dump <database>
+
+# PostgreSQL backup specific schema
+pg_dump -U <db_user> -h <db_host> -n <schema> <database> > <schema_backup>.sql
+
+# PostgreSQL restore from custom format
+pg_restore -U <db_user> -h <db_host> -d <database> <custom_backup>.dump
+
+# MongoDB backup
+mongodump --host <db_host>:<mongo_port> --db <database> --out <mongo_backup_dir>
+
+# MongoDB restore
+mongorestore --host <db_host>:<mongo_port> --db <database> <mongo_backup_dir>/<database>
+
+# MongoDB backup with authentication
+mongodump --host <db_host>:<mongo_port> -u <db_user> -p <password> --db <database> --out <mongo_backup_dir>
+
+# Redis backup (save current state)
+redis-cli -h <db_host> -p <redis_port> BGSAVE
+
+# Redis export specific database
+redis-cli -h <db_host> -p <redis_port> -n <redis_db> --rdb <redis_backup>.rdb
+
+$ all_db_backup: echo "all_databases_$(date +%Y%m%d) full_backup mysql_all_dbs" | tr ' ' '\n'
+$ structure_backup: echo "structure_$(date +%Y%m%d) schema_backup db_structure" | tr ' ' '\n'
+$ data_backup: echo "data_$(date +%Y%m%d) data_backup db_data" | tr ' ' '\n'
+$ tables: echo "users products orders customers invoices logs" | tr ' ' '\n'
+$ table_backup: echo "tables_$(date +%Y%m%d) specific_tables user_data" | tr ' ' '\n'
+$ compressed_backup: echo "backup_$(date +%Y%m%d) compressed_db mysql_backup" | tr ' ' '\n'
+$ pg_full_backup: echo "postgres_full_$(date +%Y%m%d) pg_all_databases complete_backup" | tr ' ' '\n'
+$ custom_backup: echo "custom_$(date +%Y%m%d) postgres_backup db_custom" | tr ' ' '\n'
+$ schema: echo "public schema1 app_schema user_schema" | tr ' ' '\n'
+$ schema_backup: echo "schema_$(date +%Y%m%d) public_schema app_schema" | tr ' ' '\n'
+$ mongo_backup_dir: echo "./mongo_backup /backup/mongodb /tmp/mongo_backup" | tr ' ' '\n'
+$ redis_backup: echo "redis_$(date +%Y%m%d) redis_dump backup" | tr ' ' '\n'
+$ redis_db: echo "0 1 2 3 15" | tr ' ' '\n'
+
+% database, migration
+
+# MySQL to MySQL migration
+mysqldump -u <source_user> -p<source_password> -h <source_host> <source_db> | mysql -u <dest_user> -p<dest_password> -h <dest_host> <dest_db>
+
+# PostgreSQL to PostgreSQL migration
+pg_dump -U <source_user> -h <source_host> <source_db> | psql -U <dest_user> -h <dest_host> <dest_db>
+
+# CSV import to MySQL
+mysql -u <db_user> -p<password> -e "LOAD DATA LOCAL INFILE '<csv_file>' INTO TABLE <table_name> FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 ROWS;" <database>
+
+# CSV export from MySQL
+mysql -u <db_user> -p<password> -e "SELECT * FROM <table_name> INTO OUTFILE '<output_csv>' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n';" <database>
+
+# PostgreSQL CSV import
+psql -U <db_user> -h <db_host> -d <database> -c "\copy <table_name> FROM '<csv_file>' WITH CSV HEADER"
+
+# PostgreSQL CSV export
+psql -U <db_user> -h <db_host> -d <database> -c "\copy <table_name> TO '<output_csv>' WITH CSV HEADER"
+
+# SQLite backup
+sqlite3 <sqlite_db> ".backup <backup_db>"
+
+# SQLite restore
+sqlite3 <sqlite_db> ".restore <backup_db>"
+
+$ source_user: echo "root admin backup_user source_db_user" | tr ' ' '\n'
+$ source_password: echo "password admin 123456 backup_pass" | tr ' ' '\n'
+$ source_host: echo "source.db.com 192.168.1.100 old-server.local" | tr ' ' '\n'
+$ source_db: echo "old_database source_db legacy_system" | tr ' ' '\n'
+$ dest_user: echo "root admin target_user dest_db_user" | tr ' ' '\n'
+$ dest_password: echo "password admin 123456 target_pass" | tr ' ' '\n'
+$ dest_host: echo "target.db.com 192.168.1.200 new-server.local" | tr ' ' '\n'
+$ dest_db: echo "new_database target_db production_system" | tr ' ' '\n'
+$ csv_file: find . -name "*.csv" -type f | head -10
+$ table_name: echo "users products orders customers invoices employees" | tr ' ' '\n'
+$ output_csv: echo "export_$(date +%Y%m%d).csv data_export.csv table_data.csv" | tr ' ' '\n'
+$ sqlite_db: find . -name "*.db" -o -name "*.sqlite" -o -name "*.sqlite3" -type f | head -10
+$ backup_db: echo "backup_$(date +%Y%m%d).db sqlite_backup.db database_backup.db" | tr ' ' '\n'
+
+% security, scanning
+
+# Basic port scan
+nmap <target>
+
+# Scan specific ports
+nmap -p <ports> <target>
+
+# TCP SYN scan (stealth scan)
+nmap -sS <target>
+
+# UDP scan
+nmap -sU <target>
+
+# Service version detection
+nmap -sV <target>
+
+# OS detection
+nmap -O <target>
+
+# Aggressive scan (OS, version, scripts, traceroute)
+nmap -A <target>
+
+# Scan with NSE scripts
+nmap --script <script_category> <target>
+
+# Fast scan (top 100 ports)
+nmap -F <target>
+
+# Scan network range
+nmap <network_range>
+
+# Banner grabbing with netcat
+nc -nv <target> <port>
+
+# SSL/TLS cipher scan
+nmap --script ssl-enum-ciphers -p 443 <target>
+
+# HTTP methods enumeration
+nmap --script http-methods <target>
+
+# Directory brute force with gobuster
+gobuster dir -u http://<target> -w <wordlist>
+
+# Web vulnerability scan with nikto
+nikto -h <target>
+
+$ target: echo "127.0.0.1 192.168.1.1 scanme.nmap.org example.com" | tr ' ' '\n'
+$ ports: echo "22,80,443 1-1000 21,22,23,25,53,80,110,143,443,993,995 3389,5432,3306,6379" | tr ' ' '\n'
+$ script_category: echo "vuln auth brute discovery safe default" | tr ' ' '\n'
+$ network_range: echo "192.168.1.0/24 10.0.0.0/8 172.16.0.0/12 192.168.0.1-254" | tr ' ' '\n'
+$ wordlist: echo "/usr/share/wordlists/dirb/common.txt /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt" | tr ' ' '\n'
+
+% security, vulnerability, assessment
+
+# Nmap vulnerability scan
+nmap --script vuln <target>
+
+# Check for SMB vulnerabilities
+nmap --script smb-vuln* <target>
+
+# Scan for web vulnerabilities
+nmap --script http-vuln* <target>
+
+# Check for SSL vulnerabilities
+nmap --script ssl-* <target>
+
+# DNS enumeration
+nmap --script dns-brute <domain>
+
+# SNMP enumeration
+nmap -sU --script snmp-brute <target>
+
+# SMB enumeration
+nmap --script smb-enum* <target>
+
+# FTP anonymous login check
+nmap --script ftp-anon <target>
+
+# HTTP title and server info
+nmap --script http-title,http-server-header <target>
+
+# Heartbleed vulnerability check
+nmap --script ssl-heartbleed <target>
+
+# Shellshock vulnerability check
+nmap --script http-shellshock <target>
+
+# Check for default credentials
+nmap --script auth <target>
+
+$ domain: echo "example.com google.com github.com" | tr ' ' '\n'
+
+% penetration, testing
+
+# TCP connect scan (full connection)
+nmap -sT <target>
+
+# Xmas scan (firewall evasion)
+nmap -sX <target>
+
+# FIN scan (firewall evasion)
+nmap -sF <target>
+
+# NULL scan (firewall evasion)
+nmap -sN <target>
+
+# Decoy scan (hide source IP)
+nmap -D <decoy_ips> <target>
+
+# Zombie scan (idle scan)
+nmap -sI <zombie_host> <target>
+
+# Timing template (0-5, paranoid to insane)
+nmap -T<timing> <target>
+
+# Fragment packets
+nmap -f <target>
+
+# Spoof source port
+nmap --source-port <sport> <target>
+
+# Randomize target order
+nmap --randomize-hosts <targets>
+
+# Save results to file
+nmap -oN <output_file> <target>
+
+# Save results in XML format
+nmap -oX <xml_file> <target>
+
+$ decoy_ips: echo "192.168.1.100,192.168.1.200,RND 10.0.0.1,10.0.0.2,ME" | tr ' ' '\n'
+$ zombie_host: echo "192.168.1.50 10.0.0.100" | tr ' ' '\n'
+$ timing: echo "0 1 2 3 4 5" | tr ' ' '\n'
+$ sport: echo "53 80 443 8080" | tr ' ' '\n'
+$ targets: echo "192.168.1.1-50 scanme.nmap.org example.com" | tr ' ' '\n'
+$ output_file: echo "scan_results.txt nmap_scan_$(date +%Y%m%d).txt" | tr ' ' '\n'
+$ xml_file: echo "scan_results.xml nmap_scan_$(date +%Y%m%d).xml" | tr ' ' '\n'
+
+% performance, load-testing
+
+# Basic HTTP load test with wrk
+wrk -t<threads> -c<connections> -d<duration> <url>
+
+# Load test with custom script
+wrk -t<threads> -c<connections> -d<duration> -s <script_file> <url>
+
+# Load test with POST data
+wrk -t<threads> -c<connections> -d<duration> -H "Content-Type: application/json" -s <post_script> <url>
+
+# Generate wrk POST script
+echo 'wrk.method = "POST"; wrk.body = "<json_payload>"; wrk.headers["Content-Type"] = "application/json"' > <post_script>
+
+# Load test with custom headers
+wrk -t<threads> -c<connections> -d<duration> -H "<header_name>: <header_value>" <url>
+
+# Benchmark with Apache Bench (ab)
+ab -n <requests> -c <concurrency> <url>
+
+# Benchmark with custom headers (ab)
+ab -n <requests> -c <concurrency> -H "<header_name>: <header_value>" <url>
+
+# Benchmark POST request (ab)
+ab -n <requests> -c <concurrency> -p <post_data_file> -T <content_type> <url>
+
+# Siege load testing
+siege -c<users> -t<time> <url>
+
+# Siege with URL list
+siege -c<users> -t<time> -f <url_list>
+
+# Monitor system during load test
+iostat -x 1
+
+# Monitor network during load test  
+iftop -i <interface>
+
+$ threads: echo "1 2 4 8 12 16" | tr ' ' '\n'
+$ connections: echo "10 50 100 200 500 1000" | tr ' ' '\n'
+$ duration: echo "10s 30s 1m 2m 5m 10m" | tr ' ' '\n'
+$ url: echo "http://localhost:8080 http://localhost:3000 https://example.com http://192.168.1.100" | tr ' ' '\n'
+$ script_file: echo "post.lua get.lua auth.lua benchmark.lua" | tr ' ' '\n'
+$ post_script: echo "post.lua json-post.lua api-test.lua" | tr ' ' '\n'
+$ json_payload: echo '{"test": "data"}' '{"user": "admin", "pass": "secret"}' '{"action": "benchmark"}' | tr ' ' '\n'
+$ header_name: echo "Authorization Content-Type User-Agent X-API-Key" | tr ' ' '\n'
+$ header_value: echo "Bearer token123 application/json curl/7.68.0 secret-key" | tr ' ' '\n'
+$ requests: echo "100 1000 5000 10000 50000" | tr ' ' '\n'
+$ concurrency: echo "1 5 10 20 50 100" | tr ' ' '\n'
+$ post_data_file: echo "post.json post.txt api-data.json" | tr ' ' '\n'
+$ content_type: echo "application/json application/x-www-form-urlencoded text/plain" | tr ' ' '\n'
+$ users: echo "10 25 50 100 200" | tr ' ' '\n'
+$ time: echo "1m 2m 5m 10m 30m" | tr ' ' '\n'
+$ url_list: echo "urls.txt endpoints.txt api-urls.txt" | tr ' ' '\n'
+
+% system, monitoring
+
+# Show system resource usage
+top
+
+# Show disk usage
+df -h
+
+# Show directory sizes
+du -sh <directory>/*
+
+# Show memory usage
+free -h
+
+# Show running processes
+ps aux
+
+# Find process by name
+pgrep -f <process_name>
+
+# Kill process by PID
+kill -9 <pid>
+
+# Monitor file changes
+tail -f <log_file>
+
+# Show system uptime
+uptime
+
+# Show logged in users
+who
+
+$ directory: echo "/ /var/log /home /tmp /opt" | tr ' ' '\n'
+$ process_name: echo "nginx docker mysql postgres redis node python" | tr ' ' '\n'
+$ pid: ps aux | awk 'NR>1 {print $2 "\t" $11}' | head -20 --- --column 1 --header-lines 1
+$ log_file: find /var/log -name "*.log" -type f 2>/dev/null | head -10
+
+% performance, monitoring
+
+# Real-time system performance
+htop
+
+# Monitor disk I/O
+iotop
+
+# Monitor network bandwidth
+nethogs
+
+# System performance summary
+vmstat 1
+
+# Memory usage details
+pmap -x <pid>
+
+# Process file descriptors
+lsof -p <pid>
+
+# Network connections by process
+lsof -i -P -n
+
+# Monitor specific port
+lsof -i :<port>
+
+# Check process CPU usage
+pidstat -u 1
+
+# Check process I/O usage  
+pidstat -d 1
+
+# Monitor MySQL processes
+mysqladmin -u <db_user> -p<password> processlist
+
+# Monitor PostgreSQL activity
+psql -U <db_user> -h <db_host> -d <database> -c "SELECT * FROM pg_stat_activity;"
+
+# Redis monitoring
+redis-cli -h <db_host> -p <redis_port> monitor
+
+# MongoDB performance stats
+mongo --host <db_host>:<mongo_port> --eval "db.runCommand({serverStatus:1})"
+
+# Apache/Nginx access log analysis
+tail -f <access_log> | grep -E "(GET|POST|PUT|DELETE)"
+
+$ access_log: echo "/var/log/apache2/access.log /var/log/nginx/access.log /var/log/httpd/access_log" | tr ' ' '\n'
